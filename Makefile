@@ -3,6 +3,9 @@ GOPATH_BIN=$(shell go env GOPATH)/bin
 run:
 	go run src/cmd/main.go
 
+test:
+	go test ./...
+
 lint:
 	$(GOPATH_BIN)/golangci-lint run
 
