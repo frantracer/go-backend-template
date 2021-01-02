@@ -1,7 +1,26 @@
 package main
 
-import "fmt"
+import (
+	"context"
+	"fmt"
+	"github.com/frantacer/go-backend-template/src/infrastructure/http"
+	"log"
+)
 
 func main() {
-	fmt.Println("hello world")
+	ctx := context.Background()
+
+	httpHandler := http.NewHandler()
+	server := http.NewServer(ctx, httpHandler)
+
+	port := 3000
+
+	readyCh := make(chan struct{})
+	go func() {
+		<-readyCh
+		log.Println(fmt.Sprintf("system ready to serve on port %d", port))
+	}()
+	if err := server.ListenAndServe(port, readyCh); err != nil {
+		log.Fatal(err.Error())
+	}
 }
