@@ -5,23 +5,35 @@ import (
 	"github.com/frantacer/go-backend-template/src/domain"
 )
 
+var tasks []domain.Task
+
 type UnitOfWork struct {
-	tasks []domain.Task
+	localTasks []domain.Task
 }
 
 var _ application.UnitOfWork = &UnitOfWork{}
 
 func NewUnitOfWork() UnitOfWork {
 	return UnitOfWork{
-		tasks: []domain.Task{},
+		localTasks: []domain.Task{},
 	}
 }
 
 func (w *UnitOfWork) InsertTask(t domain.Task) error {
-	w.tasks = append(w.tasks, t)
+	w.localTasks = append(w.localTasks, t)
 	return nil
 }
 
 func (w *UnitOfWork) FindTasks() ([]domain.Task, error) {
-	return w.tasks, nil
+	return tasks, nil
+}
+
+func (w *UnitOfWork) Commit() error {
+	tasks = append(tasks, w.localTasks...)
+	return nil
+}
+
+func (w *UnitOfWork) Rollback() error {
+	w.localTasks = []domain.Task{}
+	return nil
 }
