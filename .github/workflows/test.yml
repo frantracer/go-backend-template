@@ -9,6 +9,9 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v1
 
+      - name: Install tools for act image (optional)
+        run: (apt update && apt install -y sudo make curl wget gcc) || exit 0
+
       - name: Uninstall current version of Go
         run: sudo make uninstall-go
 

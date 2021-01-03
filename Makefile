@@ -22,7 +22,7 @@ setup-ci-env: setup-linter
 setup-dev-env: setup-linter
 
 setup-linter:
-	go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.34.1
+	go get github.com/golangci/golangci-lint/cmd/golangci-lint
 
 act-push:
-	act -P ubuntu-latest=nektos/act-environments-ubuntu:18.04 push
+	act -P push
