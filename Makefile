@@ -19,10 +19,13 @@ uninstall-go:
 
 setup-ci-env: setup-linter
 
-setup-dev-env: setup-linter
+setup-dev-env: setup-linter setup-act
 
 setup-linter:
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GOPATH_BIN) v1.34.1
+
+setup-act:
+	curl https://raw.githubusercontent.com/nektos/act/v0.2.17/install.sh | sudo bash
 
 act-push:
 	act -P push
