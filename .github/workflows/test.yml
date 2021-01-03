@@ -1,0 +1,28 @@
+name: test
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v1
+
+      - name: Update packages
+        run: apt update
+
+      - name: Set up required tools
+        run: apt -y install make curl wget gcc
+
+      - name: Install Go
+        run: make install-go
+
+      - name: Install tools
+        run: make setup-ci-env
+
+      - name: Check code format with linter
+        run: make lint
+
+      - name: Testing
+        run: make test

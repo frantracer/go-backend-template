@@ -9,7 +9,17 @@ test:
 lint:
 	$(GOPATH_BIN)/golangci-lint run
 
-tools-dev: tool-linter
+install-go:
+	wget -c https://golang.org/dl/go1.15.6.linux-amd64.tar.gz -O - | tar -xz -C /usr/local
+	ln -s /usr/local/go/bin/go /usr/bin/go
 
-tool-linter:
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GOPATH_BIN) v1.33.0
+uninstall-go:
+	rm -rf /usr/local/go
+	rm -rf /usr/bin/go
+
+setup-ci-env: setup-linter
+
+setup-dev-env: setup-linter
+
+setup-linter:
+	go get github.com/golangci/golangci-lint/cmd/golangci-lint@v1.34.1
