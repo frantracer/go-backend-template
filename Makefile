@@ -10,7 +10,7 @@ lint:
 	$(GOPATH_BIN)/golangci-lint run
 
 install-go:
-	wget -c https://golang.org/dl/go1.15.6.linux-amd64.tar.gz -O - | tar -xz -C /usr/local
+	wget -c https://golang.org/dl/go1.14.13.linux-amd64.tar.gz -O - | tar -xz -C /usr/local
 	ln -s /usr/local/go/bin/go /usr/bin/go
 
 uninstall-go:
