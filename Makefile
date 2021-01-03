@@ -10,12 +10,12 @@ lint:
 	$(GOPATH_BIN)/golangci-lint run
 
 install-go:
-	wget -c https://golang.org/dl/go1.14.13.linux-amd64.tar.gz -O - | tar -xz -C /usr/local
-	ln -s /usr/local/go/bin/go /usr/bin/go
+	wget -c https://golang.org/dl/go1.14.13.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
+	sudo ln -s /usr/local/go/bin/go /usr/bin/go
 
 uninstall-go:
-	rm -rf /usr/local/go
-	rm -rf /usr/bin/go
+	sudo rm -rf /usr/local/go
+	sudo rm -rf /usr/bin/go
 
 setup-ci-env: setup-linter
 

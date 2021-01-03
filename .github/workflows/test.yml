@@ -13,10 +13,10 @@ jobs:
         run: (apt update && apt install -y sudo make curl wget gcc) || exit 0
 
       - name: Uninstall current version of Go
-        run: sudo make uninstall-go
+        run: make uninstall-go
 
       - name: Install Go
-        run: sudo make install-go
+        run: make install-go
 
       - name: Install tools
         run: make setup-ci-env
