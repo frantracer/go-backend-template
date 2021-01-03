@@ -22,7 +22,7 @@ setup-ci-env: setup-linter
 setup-dev-env: setup-linter
 
 setup-linter:
-	go get github.com/golangci/golangci-lint/cmd/golangci-lint
+	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(GOPATH_BIN) v1.34.1
 
 act-push:
 	act -P push
