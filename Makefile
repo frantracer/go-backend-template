@@ -1,5 +1,8 @@
 GOPATH_BIN=$(shell go env GOPATH)/bin
 
+# Set GOROOT is only required for Github Actions image, it sets an old version of Go by default
+export GOROOT=/usr/local/go
+
 run:
 	go run src/cmd/main.go
 
@@ -10,7 +13,7 @@ lint:
 	$(GOPATH_BIN)/golangci-lint run
 
 install-go:
-	wget -c https://golang.org/dl/go1.14.13.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
+	wget -c https://golang.org/dl/go1.15.6.linux-amd64.tar.gz -O - | sudo tar -xz -C /usr/local
 	sudo ln -s /usr/local/go/bin/go /usr/bin/go
 
 uninstall-go:
