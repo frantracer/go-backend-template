@@ -1,11 +1,13 @@
-package in_memory
+package inmemory
 
 import (
-	"github.com/frantacer/go-backend-template/src/domain"
-	"github.com/google/uuid"
 	"testing"
+
+	"github.com/frantacer/go-backend-template/src/domain"
+
+	"github.com/google/uuid"
+	"github.com/stretchr/testify/require"
 )
-import "github.com/stretchr/testify/require"
 
 func TestInMemoryUnitOfWork(t *testing.T) {
 	t.Run(`Given an empty in memory unit of work

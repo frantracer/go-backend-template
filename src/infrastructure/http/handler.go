@@ -1,9 +1,10 @@
 package http
 
 import (
-	"github.com/frantacer/go-backend-template/src/infrastructure/http/functions"
 	"net/http"
 	"time"
+
+	"github.com/frantacer/go-backend-template/src/infrastructure/http/functions"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"

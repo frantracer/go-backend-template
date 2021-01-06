@@ -1,4 +1,4 @@
-package in_memory
+package inmemory
 
 import (
 	"github.com/frantacer/go-backend-template/src/application"

@@ -1,9 +1,10 @@
 package main
 
 import (
+	"github.com/frantacer/go-backend-template/src/infrastructure/http"
+
 	"context"
 	"fmt"
-	"github.com/frantacer/go-backend-template/src/infrastructure/http"
 	"log"
 )
 
