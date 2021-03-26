@@ -29,7 +29,7 @@ func NewHandler(appHandlers ApplicationHandlers) http.Handler {
 	r.Use(middleware.Timeout(requestTimeoutInSeconds * time.Second))
 
 	// Endpoints definition
-	r.Get("/health", functions.HealthCheckHandler())
+	r.Get("/health", functions.HealthCheckHTTPHandler())
 
 	r.Get("/tasks", functions.FindTasksHTTPHandler(appHandlers.FindTasksHandler))
 	r.Post("/tasks", functions.InsertTaskHTTPHandler(appHandlers.InsertTaskHandler))
