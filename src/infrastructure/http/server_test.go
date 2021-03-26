@@ -53,7 +53,7 @@ func doRequest(reqMethod, reqURL string, reqBody unstructuredJSON) (respStatusCo
 
 func runServer() {
 	ctx := context.Background()
-	server := NewServer(ctx, NewHandler())
+	server := NewServer(ctx, NewHandler(ApplicationHandlers{}))
 
 	readyChannel := make(chan struct{})
 	go func() {

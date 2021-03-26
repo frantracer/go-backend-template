@@ -21,7 +21,8 @@ func TestInMemoryUnitOfWork(t *testing.T) {
 			require.Empty(t, initialTasks)
 
 			id := uuid.MustParse("cd3dc666-f753-4bee-b550-52c61c60a640")
-			newTask := domain.NewTask(id)
+			message := "work on the project"
+			newTask := domain.NewTask(id, message)
 			err = uow1.InsertTask(newTask)
 			require.NoError(t, err)
 

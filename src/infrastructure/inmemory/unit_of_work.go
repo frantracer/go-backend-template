@@ -1,17 +1,32 @@
 package inmemory
 
 import (
-	"github.com/frantacer/go-backend-template/src/application"
+	"context"
+
+	"github.com/frantacer/go-backend-template/src/application/repositories"
 	"github.com/frantacer/go-backend-template/src/domain"
 )
 
+// Unit of Work Creator
+type UnitOfWorkCreator struct{}
+
+func NewUnitOfWorkCreator() UnitOfWorkCreator {
+	return UnitOfWorkCreator{}
+}
+
+func (c UnitOfWorkCreator) Create(context.Context) (repositories.UnitOfWork, error) {
+	uow := NewUnitOfWork()
+	return &uow, nil
+}
+
+var _ repositories.UnitOfWorkCreator = &UnitOfWorkCreator{}
+
 var tasks []domain.Task
 
+// Unit of Work
 type UnitOfWork struct {
 	localTasks []domain.Task
 }
-
-var _ application.UnitOfWork = &UnitOfWork{}
 
 func NewUnitOfWork() UnitOfWork {
 	return UnitOfWork{
@@ -24,7 +39,7 @@ func (w *UnitOfWork) InsertTask(t domain.Task) error {
 	return nil
 }
 
-func (w *UnitOfWork) FindTasks() ([]domain.Task, error) {
+func (w UnitOfWork) FindTasks() ([]domain.Task, error) {
 	return tasks, nil
 }
 
@@ -37,3 +52,5 @@ func (w *UnitOfWork) Rollback() error {
 	w.localTasks = []domain.Task{}
 	return nil
 }
+
+var _ repositories.UnitOfWork = &UnitOfWork{}
