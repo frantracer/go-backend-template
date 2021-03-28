@@ -62,7 +62,6 @@ linters:
     - funlen
     - gochecknoinits
     - goconst
-    - gocritic
     - gocyclo
     - gofmt
     - goimports
@@ -95,6 +94,7 @@ linters:
   # - asciicheck
   # - gochecknoglobals
   # - gocognit
+  # - gocritic
   # - godot
   # - godox
   # - goerr113

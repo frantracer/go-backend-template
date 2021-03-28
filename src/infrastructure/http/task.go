@@ -1,4 +1,4 @@
-package functions
+package http
 
 import (
 	"encoding/json"
@@ -8,43 +8,45 @@ import (
 	"github.com/frantacer/go-backend-template/src/domain"
 )
 
-type InsertTaskBody struct {
-	Message string `json:"message"`
-}
-
 type TaskJSON struct {
 	ID      string `json:"id"`
 	Message string `json:"message"`
 }
 
-func InsertTaskHTTPHandler(appHandler handlers.InsertTaskHandler) http.HandlerFunc {
+type InsertTaskRequestBody struct {
+	Message string `json:"message"`
+}
+
+type InsertTaskResponseBody = TaskJSON
+
+func InsertTaskHTTPFunc(appHandler handlers.InsertTaskHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var body InsertTaskBody
+		var body InsertTaskRequestBody
 		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
-			http.Error(w, err.Error(), http.StatusBadRequest)
+			sendError(w, err.Error(), http.StatusBadRequest)
 			return
 		}
 
 		task, _ := appHandler.Handle(r.Context(), handlers.InsertTaskCommand{Message: body.Message})
 		data, _ := json.Marshal(mapTaskFromDomainToJSON(task))
 
-		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write(data)
+		sendResponse(w, data)
 	}
 }
 
-func FindTasksHTTPHandler(appHandler handlers.FindTasksHandler) http.HandlerFunc {
+type FindTasksResponseBody = []TaskJSON
+
+func FindTasksHTTPFunc(appHandler handlers.FindTasksHandler) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tasks, _ := appHandler.Handle(r.Context())
 
-		items := make([]TaskJSON, len(tasks))
+		items := make(FindTasksResponseBody, len(tasks))
 		for i := range tasks {
 			items[i] = mapTaskFromDomainToJSON(tasks[i])
 		}
 		data, _ := json.Marshal(items)
 
-		w.Header().Set("Content-Type", "application/json")
-		_, _ = w.Write(data)
+		sendResponse(w, data)
 	}
 }
 

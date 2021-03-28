@@ -5,6 +5,12 @@ import (
 	"fmt"
 	"net"
 	"net/http"
+	"time"
+
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+
+	appHandlers "github.com/frantacer/go-backend-template/src/application/handlers"
 )
 
 type Server struct {
@@ -41,4 +47,31 @@ func (s *Server) ListenAndServe(port int, readyCh chan struct{}) error {
 		return nil
 	}
 	return err
+}
+
+type ApplicationHandlers struct {
+	FindTasksHandler  appHandlers.FindTasksHandler
+	InsertTaskHandler appHandlers.InsertTaskHandler
+}
+
+// NewHandler defines the middlewares used and the endpoints exposed
+func NewHandler(appHandlers ApplicationHandlers) http.Handler {
+	const requestTimeoutInSeconds = 60
+
+	r := chi.NewRouter()
+
+	r.Use(middleware.RequestID)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Recoverer)
+	r.Use(middleware.DefaultLogger)
+	r.Use(middleware.Timeout(requestTimeoutInSeconds * time.Second))
+
+	r.Get("/health", HealthCheckHTTPFunc())
+
+	r.Route("/tasks", func(r chi.Router) {
+		r.Get("/", FindTasksHTTPFunc(appHandlers.FindTasksHandler))
+		r.Post("/", InsertTaskHTTPFunc(appHandlers.InsertTaskHandler))
+	})
+
+	return r
 }
